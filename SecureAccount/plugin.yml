@@ -1,5 +1,27 @@
 name: SecureAccount
 author: MamayAdesu
 api: 1.2.0
-version: "1.0"
+version: "1.1"
 main: mamayadesu\secureaccount\secureaccount
+
+commands:
+ secure:
+  permission: secureaccount.secure
+  description: Add account to list of secure
+  usage: /secure <player> <ip>
+ unsecure:
+  permission: secureaccount.unsecure
+  description: Remove account from list of secure
+  usage: /unsecure <player>
+ 
+permissions:
+ secureaccount.*:
+  default: op
+  description: Allows all commands of SecureAccount
+  children:
+   secureaccount.secure:
+    default: op
+    description: Allows command to secure account
+   secureaccount.unsecure:
+    default: op
+    description: Allows command to unsecure account
