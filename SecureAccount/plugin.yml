@@ -24,4 +24,8 @@ permissions:
     description: Allows command to secure account
    secureaccount.unsecure:
     default: op
+<<<<<<< HEAD
     description: Allows command to unsecure account
+=======
+    description: Allows command to unsecure account
+>>>>>>> origin/master
