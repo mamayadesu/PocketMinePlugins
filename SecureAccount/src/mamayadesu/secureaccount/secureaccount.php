@@ -40,63 +40,12 @@ public function onPlayerPreLogin(PlayerPreLoginEvent $event)
         $player = $event->getPlayer();
         $somenumber = str_replace('*', '([0-9]+)', $this->getConfig()->get(strtolower($player->getName())));
         if(! empty($this->getConfig()->get(strtolower($player->getName()))) && ! preg_match("/^".$somenumber."$/", $player->getAddress()))
-<<<<<<< HEAD
         {
             $player->close("", "Account is secured!");
             $event->setCancelled();
             $this->getLogger()->info($player->getName()." can't join server! His IP ".$player->getAddress()." doesn't match with ".$this->getConfig()->get(strtolower($player->getName())));
             return true;
         }
-    }
-
-public function onCommand(CommandSender $sender, Command $command, $label, array $params)
-    {
-        switch($command->getName())
-        {
-            case "secure":
-                $player = array_shift($params);
-                $ip = implode(" ", $params);
-                if(! empty($player) && ! empty($ip))
-                    {
-                        $this->getConfig()->set(strtolower($player), $ip);
-                        $this->getConfig()->save();
-                        $sender->sendMessage("Now this account is secured!");
-                    }
-                else
-                    {
-                        $sender->sendMessage("Write nickname and IP!");
-                    }
-                break;
-                
-            case "unsecure":
-                $player = array_shift($params);
-                if(! empty($player))
-                    {
-                        if(! empty($this->getConfig()->get(strtolower($player))))
-                        {
-                            $this->getConfig()->remove(strtolower($player));
-                            $this->getConfig()->save();
-                            $sender->sendMessage("Now this account is unsecured!");
-                        }
-                        else
-                        {
-                            $sender->sendMessage("Account not found in list of secure!");
-                        }
-                    }
-                else
-                    {
-                        $sender->sendMessage("Write nickname!");
-                    }
-                break;
-=======
-        {
-            $player->close("", "Account is secured!");
-            $event->setCancelled();
-            $this->getLogger()->info($player->getName()." can't join server! His IP ".$player->getAddress()." doesn't match with ".$this->getConfig()->get(strtolower($player->getName())));
-            return true;
->>>>>>> origin/master
-        }
-        return true;
     }
 
 public function onCommand(CommandSender $sender, Command $command, $label, array $params)
