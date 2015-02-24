@@ -45,7 +45,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                 return true;
             }
         switch($command->getName())
-	        {
+            {
                 case "pvppon":
                     $this->getConfig()->set(strtolower($sender->getName()), true);
                     $this->getConfig()->save();
