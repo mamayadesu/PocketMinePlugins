@@ -4,7 +4,7 @@
 например, <code>НазваниеПлагина_plugin</code>,
 <p>чтобы никаких сбоев не возникало.</p>
 =========================================================================
-I uploading all my plugins here.
+I uploading all my PocketMine-MP plugins here.
 
 After downloading of a plugin in source code to rename plugin folder to,
 for example, <code>PluginName_plugin</code>,
