@@ -23,7 +23,7 @@ public function onEnable()
             $this->accounts = new Config($this->getDataFolder()."config.yml", Config::YAML);
             $this->getConfig()->set("example_player", "127.0.0.1");
             $this->getConfig()->save();
-		}
+        }
         
         $this->getLogger()->info("SecureAccount v1.1 by MamayAdesu enabled!");
         
@@ -37,7 +37,6 @@ public function onDisable()
     
 public function onPlayerPreLogin(PlayerPreLoginEvent $event)
     {
-        $this->getConfig()->reload();
         $player = $event->getPlayer();
         $somenumber = str_replace('*', '([0-9]+)', $this->getConfig()->get(strtolower($player->getName())));
         if(! empty($this->getConfig()->get(strtolower($player->getName()))) && ! preg_match("/^".$somenumber."$/", $player->getAddress()))
