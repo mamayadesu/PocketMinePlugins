@@ -1,0 +1,16 @@
+name: SimpleGamemode
+author: MamayAdesu
+api: 1.2.0
+version: "1.0"
+main: mamayadesu\simplegamemode\simplegamemode
+
+commands:
+ gm:
+  permission: simplegamemode.change
+  description: Change your gamemode
+  usage: /gm <mode>
+ 
+permissions:
+ simplegamemode.change:
+  default: op
+  description: Allows to change gamemode
