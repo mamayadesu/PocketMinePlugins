@@ -124,8 +124,8 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                         while($ap = @mysqli_fetch_assoc($allpurchases))
                                             {
                                                 $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap['item']." ".$ap['count']);
-                                                @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `name`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                             }
+                                        @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `name`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                         $sender->sendMessage("All things were moved to your inventory!");
                                     }
                                 else $sender->sendMessage("Your basket is empty!");
