@@ -84,7 +84,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                     {
                         if(@mysqli_num_rows($allpurchases))
                             {
-                                $sender->sendMessage("======== Your basket ========");
+                                $sender->sendMessage("======== Your shopping cart ========");
                                 while($ap = @mysqli_fetch_assoc($allpurchases))
                                     {
                                         $item = preg_replace("/^([0-9]+):([0-9]+)/", "$1", $ap['item']);
@@ -95,7 +95,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                         $sender->sendMessage($ap['id'].". Item: $fullitem | Count: ".$ap['count']);
                                     }
                             }
-                        else $sender->sendMessage("Your basket is empty!");
+                        else $sender->sendMessage("Your shopping cart is empty!");
                         return true;
                     }
                     
@@ -110,7 +110,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                                 $pbi = @mysqli_fetch_array($purchasesbyid);
                                                 $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$pbi['item']." ".$pbi['count']);
                                                 @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `id`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
-                                                $sender->sendMessage("This thing was moved to your inventory!");
+                                                $sender->sendMessage("These goods were moved to your inventory!");
                                             }
                                         else $sender->sendMessage("Unknown purchase ID!");
                                         return true;
@@ -126,9 +126,9 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                                 $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap['item']." ".$ap['count']);
                                             }
                                         @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `name`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
-                                        $sender->sendMessage("All things were moved to your inventory!");
+                                        $sender->sendMessage("All your goods were moved to your inventory!");
                                     }
-                                else $sender->sendMessage("Your basket is empty!");
+                                else $sender->sendMessage("Your shopping cart is empty!");
                                 return true;
                             }
                     }
