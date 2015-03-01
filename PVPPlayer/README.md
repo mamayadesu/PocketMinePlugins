@@ -24,8 +24,10 @@
 <b>/pvppon</b> - включить PVP режим.<br>
 Право: <b>pvpplayer.on</b>
 <br>
+<br>
 <b>/pvppoff</b> - выключить PVP режим.<br>
 Право: <b>pvpplayer.off</b>
+<br>
 <br>
 <b>/pvpp</b> - проверить свой PVP статус.<br>
 Право: <b>pvpplayer.check</b>
