@@ -13,5 +13,5 @@ for failures not arose.</p>
 <p>Download .phar (plugin) | Скачать .phar (плагин)<br>
 <a href="http://vk.com/doc155272407_370353839">SecureAccount v1.1</a><br>
 <a href="http://vk.com/doc155272407_370354190">PVPPlayer v1.0</a><br>
-<a href="http://vk.com/doc155272407_370354447">ShoppingCartPE v1.0 beta</a>
+<a href="http://vk.com/doc155272407_370430192">ShoppingCartPE v1.0 beta</a>
 </p>
