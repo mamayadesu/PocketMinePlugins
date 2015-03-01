@@ -12,12 +12,6 @@
 3. Запускить сервер, после запуска он сразу выключится<br>
 4. Откройте файл <i>/plugins/ShoppingCartPE/config.yml<br>
 и настройте подключение к MySQL:
-<blockquote>mysql_addr - ip адрес MySQL сервера.<br>
-mysql_user - пользователь MySQL.<br>
-mysql_pass - пароль от базы данных.<br>
-mysql_base - база данных MySQL.<br>
-mysql_port - порт от сервера MySQL.<br>
-mysql_table - таблица с вещами.</blockquote>
 5. Запускаете сервер.
 <br>
 <br>
@@ -33,3 +27,13 @@ mysql_table - таблица с вещами.</blockquote>
 <br>
 <br>
 <b>/cart get all</b> - получить все свои вещи из корзины.
+<br>
+<br>
+<br>
+<h2>Опции конфига</h2><br>
+<blockquote>mysql_addr - ip адрес MySQL сервера.<br>
+mysql_user - пользователь MySQL.<br>
+mysql_pass - пароль от базы данных.<br>
+mysql_base - база данных MySQL.<br>
+mysql_port - порт от сервера MySQL.<br>
+mysql_table - таблица с вещами.</blockquote>
