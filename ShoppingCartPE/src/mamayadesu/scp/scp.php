@@ -112,7 +112,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                                 @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `id`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                                 $sender->sendMessage("This thing was moved to your inventory!");
                                             }
-                                        else $sender->sendMessage("Unknow purchase ID!");
+                                        else $sender->sendMessage("Unknown purchase ID!");
                                         return true;
                                     }
                                 else return false;
@@ -132,7 +132,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                 return true;
                             }
                     }
-                else $sender->sendMessage("Unknow subcommand!");
+                else $sender->sendMessage("Unknown subcommand!");
                 return true;
                 break;
         }
