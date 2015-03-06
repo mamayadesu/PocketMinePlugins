@@ -28,6 +28,10 @@ public function onEnable()
             $this->getConfig()->set("mysql_base", "db");
             $this->getConfig()->set("mysql_port", 3306);
             $this->getConfig()->set("mysql_table", "shoppingcartpe");
+            $this->getConfig()->set("mysql_column_row_id", "id");
+            $this->getConfig()->set("mysql_column_username", "name");
+            $this->getConfig()->set("mysql_column_item_id", "item");
+            $this->getConfig()->set("mysql_column_items_count", "count");
             $this->getConfig()->save();
         }
         
@@ -45,15 +49,15 @@ public function onEnable()
 
         @mysqli_query($this->link, "
 
-CREATE TABLE IF NOT EXISTS `".$this->getConfig()->get("mysql_table")."` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `item` varchar(255) NOT NULL DEFAULT '0',
-  `count` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        CREATE TABLE IF NOT EXISTS `".$this->getConfig()->get("mysql_table")."` (
+          `".$this->getConfig()->get("mysql_column_row_id")."` int(11) NOT NULL AUTO_INCREMENT,
+          `".$this->getConfig()->get("mysql_column_username")."` varchar(255) NOT NULL,
+          `".$this->getConfig()->get("mysql_column_item_id")."` varchar(255) NOT NULL DEFAULT '0',
+          `".$this->getConfig()->get("mysql_column_items_count")."` varchar(255) NOT NULL,
+          PRIMARY KEY (`".$this->getConfig()->get("mysql_column_row_id")."`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-") or die("FAILED TO USE MYSQL COMMAND! QUERY 1");
+        ") or die("FAILED TO USE MYSQL COMMAND! QUERY 1");
         
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
@@ -78,8 +82,8 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
             case "cart":
                 $action = array_shift($params);
                 $id = implode("", $params);
-                $allpurchases = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `name`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 2");
-                $purchasesbyid = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `id`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 3");
+                $allpurchases = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 2");
+                $purchasesbyid = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id' AND `".$this->getConfig()->get("mysql_column_username")."`='".$sender->getName()."'") or die("FAILED TO USE MYSQL COMMAND! QUERY 3");
                 if(empty($action))
                     {
                         if(@mysqli_num_rows($allpurchases))
@@ -87,12 +91,12 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                 $sender->sendMessage("======== Your shopping cart ========");
                                 while($ap = @mysqli_fetch_assoc($allpurchases))
                                     {
-                                        $item = preg_replace("/^([0-9]+):([0-9]+)/", "$1", $ap['item']);
-                                        $damage = preg_replace("/^([0-9]+):([0-9]+)/", "$2", $ap['item']);
-                                        $fullitem = Item::get($item, $damage, $ap['count']);
+                                        $item = preg_replace("/^([0-9]+):([0-9]+)/", "$1", $ap[$this->getConfig()->get("mysql_column_item_id")]);
+                                        $damage = preg_replace("/^([0-9]+):([0-9]+)/", "$2", $ap[$this->getConfig()->get("mysql_column_item_id")]);
+                                        $fullitem = Item::get($item, $damage, $ap[$this->getConfig()->get("mysql_column_items_count")]);
                                         $fullitem = preg_replace("/x([0-9]+)/s", "", $fullitem);
                                         $fullitem = str_replace("Item ", "", $fullitem);
-                                        $sender->sendMessage($ap['id'].". Item: $fullitem | Count: ".$ap['count']);
+                                        $sender->sendMessage($ap[$this->getConfig()->get("mysql_column_row_id")].". Item: $fullitem | Count: ".$ap[$this->getConfig()->get("mysql_column_items_count")]);
                                     }
                             }
                         else $sender->sendMessage("Your shopping cart is empty!");
@@ -108,8 +112,8 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                         if(@mysqli_num_rows($purchasesbyid))
                                             {
                                                 $pbi = @mysqli_fetch_array($purchasesbyid);
-                                                $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$pbi['item']." ".$pbi['count']);
-                                                @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `id`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
+                                                $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$pbi[$this->getConfig()->get("mysql_column_item_id")]." ".$pbi[$this->getConfig()->get("mysql_column_items_count")]);
+                                                @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                                 $sender->sendMessage("These goods were moved to your inventory!");
                                             }
                                         else $sender->sendMessage("Unknown purchase ID!");
@@ -123,9 +127,9 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                     {
                                         while($ap = @mysqli_fetch_assoc($allpurchases))
                                             {
-                                                $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap['item']." ".$ap['count']);
+                                                $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap[$this->getConfig()->get("mysql_column_item_id")]." ".$ap[$this->getConfig()->get("mysql_column_items_count")]);
                                             }
-                                        @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `name`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
+                                        @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                         $sender->sendMessage("All your goods were moved to your inventory!");
                                     }
                                 else $sender->sendMessage("Your shopping cart is empty!");
