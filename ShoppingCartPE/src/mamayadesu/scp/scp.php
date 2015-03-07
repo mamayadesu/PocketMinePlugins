@@ -22,6 +22,7 @@ public function onEnable()
         {
             mkdir($this->getDataFolder());
             $this->configfile = new Config($this->getDataFolder()."config.yml", Config::YAML);
+            $this->getConfig()->set("enable_logger", true);
             $this->getConfig()->set("mysql_addr", "127.0.0.1");
             $this->getConfig()->set("mysql_user", "root");
             $this->getConfig()->set("mysql_pass", "passwd");
@@ -112,9 +113,14 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                         if(@mysqli_num_rows($purchasesbyid))
                                             {
                                                 $pbi = @mysqli_fetch_array($purchasesbyid);
-                                                $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$pbi[$this->getConfig()->get("mysql_column_item_id")]." ".$pbi[$this->getConfig()->get("mysql_column_items_count")]);
+                                                $item = preg_replace("/^([0-9]+):([0-9]+)/", "$1", $pbi[$this->getConfig()->get("mysql_column_item_id")]);
+                                                $damage = preg_replace("/^([0-9]+):([0-9]+)/", "$2", $pbi[$this->getConfig()->get("mysql_column_item_id")]);
+                                                $fullitem = Item::get($item, $damage, $pbi[$this->getConfig()->get("mysql_column_items_count")]);
+                                                $sender->getInventory()->addItem($fullitem);
+                                                #$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$pbi[$this->getConfig()->get("mysql_column_item_id")]." ".$pbi[$this->getConfig()->get("mysql_column_items_count")]); // This method of give things was used in beta version of plugin
                                                 @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                                 $sender->sendMessage("These goods were moved to your inventory!");
+                                                if($this->getConfig()->get("enable_logger")) $this->getLogger()->info($sender->getName()." gained ".$fullitem." by '/cart get ".$pbi[$this->getConfig()->get("mysql_column_row_id")]."'");
                                             }
                                         else $sender->sendMessage("Unknown purchase ID!");
                                         return true;
@@ -127,7 +133,12 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                     {
                                         while($ap = @mysqli_fetch_assoc($allpurchases))
                                             {
-                                                $this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap[$this->getConfig()->get("mysql_column_item_id")]." ".$ap[$this->getConfig()->get("mysql_column_items_count")]);
+                                                $item = preg_replace("/^([0-9]+):([0-9]+)/", "$1", $ap[$this->getConfig()->get("mysql_column_item_id")]);
+                                                $damage = preg_replace("/^([0-9]+):([0-9]+)/", "$2", $ap[$this->getConfig()->get("mysql_column_item_id")]);
+                                                $fullitem = Item::get($item, $damage, $ap[$this->getConfig()->get("mysql_column_items_count")]);
+                                                $sender->getInventory()->addItem($fullitem);
+                                                if($this->getConfig()->get("enable_logger")) $this->getLogger()->info($sender->getName()." gained ".$fullitem." by '/cart get all'");
+                                                #$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap[$this->getConfig()->get("mysql_column_item_id")]." ".$ap[$this->getConfig()->get("mysql_column_items_count")]); // This method of give things was used in beta version of plugin
                                             }
                                         @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
                                         $sender->sendMessage("All your goods were moved to your inventory!");
