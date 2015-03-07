@@ -3,6 +3,7 @@ author: MamayAdesu
 api: 1.2.0
 version: "1.0"
 main: mamayadesu\pvpplayer\pvpplayer
+website: https://github.com/mamayadesu/PocketMinePlugins/PVPlayer
 
 commands:
  pvppon:
