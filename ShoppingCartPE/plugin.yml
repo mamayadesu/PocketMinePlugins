@@ -1,16 +1,15 @@
 name: ShoppingCartPE
 author: MamayAdesu
 api: 1.2.0
-version: 1.0_beta
+version: 1.0
 main: mamayadesu\scp\scp
 
 commands:
  cart:
-  permission: cart.command
-  description: Check basket
-  usage: /cart get <id | all>
+  permission: cart
+  usage: /cart get <purchase_id | all>
  
 permissions:
- cart.command:
+ cart:
   default: true
-  description: Allows to all commands ShoppingCartPE
+  description: Allows to use ShoppingCartPE
