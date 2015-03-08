@@ -36,7 +36,7 @@ public function onEnable()
             $this->getConfig()->save();
         }
         
-        $this->getLogger()->info("Loading ShoppingCartPE v1.0 beta by MamayAdesu...");
+        $this->getLogger()->info("Loading ShoppingCartPE v1.0 by MamayAdesu...");
         
         $this->link = @mysqli_connect(
          $this->getConfig()->get("mysql_addr"),
@@ -66,7 +66,7 @@ public function onEnable()
 public function onDisable()
     {
         @mysqli_close($this->link);
-        $this->getLogger()->info("Disabling ShoppingCartPE v1.0 beta by MamayAdesu...");
+        $this->getLogger()->info("Disabling ShoppingCartPE v1.0 by MamayAdesu...");
     }
 
 public function onCommand(CommandSender $sender, Command $command, $label, array $params)
