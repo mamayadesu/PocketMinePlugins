@@ -11,7 +11,8 @@ for example, <code>PluginName_plugin</code>,
 for failures not arose.</p>
 <hr>
 <p>Download .phar (plugin) | Скачать .phar (плагин)<br>
-<a href="http://vk.com/doc155272407_370353839">SecureAccount v1.1</a><br>
 <a href="http://vk.com/doc155272407_370354190">PVPPlayer v1.0</a><br>
+<a href="http://vk.com/doc155272407_370353839">SecureAccount v1.1</a><br>
+<a href="http://forums.pocketmine.net/plugins/simplegamemode.620/download?version=1925">SimpleGamemode v1.0</a><br>
 <a href="http://vk.com/doc155272407_372189002">ShoppingCartPE v1.0</a>
 </p>
