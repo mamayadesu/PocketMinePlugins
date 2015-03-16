@@ -23,7 +23,7 @@ public function onEnable()
             $this->getConfig()->save();
         }
         
-        $this->getLogger()->info("Loading TimezoneCorrector v1.0 by MamayAdesu...");
+        $this->getLogger()->info("Loading TimezoneCorrector v1.1 by MamayAdesu...");
         
         date_default_timezone_set($this->getConfig()->get("timezone"));
         
@@ -32,7 +32,7 @@ public function onEnable()
     
 public function onDisable()
     {
-        $this->getLogger()->info("Disabling TimezoneCorrector v1.0 by MamayAdesu...");
+        $this->getLogger()->info("Disabling TimezoneCorrector v1.1 by MamayAdesu...");
     }
     
 public function getTimezone($timezone)
@@ -672,7 +672,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                     }
                     else
                     {
-                        $sender-sendMessage("Unknow subcommand!");
+                        $sender->sendMessage("Unknow subcommand!");
                         return true;
                     }
                 }
