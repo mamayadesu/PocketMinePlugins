@@ -13,7 +13,7 @@ class simplegamemode extends PluginBase implements CommandExecutor, Listener{
 
 public function onEnable()
     {      
-        $this->getLogger()->info("Loading SimpleGamemode v1.0 by MamayAdesu!");
+        $this->getLogger()->info("Loading SimpleGamemode v1.0 by MamayAdesu...");
         
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
@@ -39,7 +39,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                 switch(array_shift($params))
                 {
                     default:
-                        $sender->sendMessage("Unknow gamemode!");
+                        $sender->sendMessage("Unknown gamemode!");
                         break;
                     case "survival":
                     case "s":
