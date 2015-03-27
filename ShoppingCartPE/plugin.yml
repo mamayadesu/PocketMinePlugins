@@ -1,7 +1,7 @@
 name: ShoppingCartPE
 author: MamayAdesu
 api: 1.2.0
-version: "1.0"
+version: "1.1"
 main: mamayadesu\scp\scp
 
 commands:
