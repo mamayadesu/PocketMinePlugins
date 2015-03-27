@@ -36,7 +36,7 @@ public function onEnable()
             $this->getConfig()->save();
         }
         
-        $this->getLogger()->info("Loading ShoppingCartPE v1.0 by MamayAdesu...");
+        $this->getLogger()->info("Loading ShoppingCartPE v1.1 by MamayAdesu...");
         
         $this->link = @mysqli_connect(
          $this->getConfig()->get("mysql_addr"),
@@ -66,7 +66,15 @@ public function onEnable()
 public function onDisable()
     {
         @mysqli_close($this->link);
-        $this->getLogger()->info("Disabling ShoppingCartPE v1.0 by MamayAdesu...");
+        $this->getLogger()->info("Disabling ShoppingCartPE v1.1 by MamayAdesu...");
+    }
+
+public function addGoods($username, $item_id, $count)
+    {
+        $check_goods = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_item_id")."`='$item_id' AND `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 2");
+        if(@mysqli_num_rows($check_goods)) @mysqli_query($this->link, "UPDATE `".$this->getConfig()->get("mysql_table")."` SET `".$this->getConfig()->get("mysql_column_items_count")."`=".$this->getConfig()->get("mysql_column_items_count")."+$count WHERE `".$this->getConfig()->get("mysql_column_item_id")."`='$item_id' AND `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 3");
+        else @mysqli_query($this->link, "INSERT INTO `".$this->getConfig()->get("mysql_table")."` (`".$this->getConfig()->get("mysql_column_username")."`, `".$this->getConfig()->get("mysql_column_item_id")."`, `".$this->getConfig()->get("mysql_column_items_count")."`) VALUES
+         ('$username', '$item_id', '$count')") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
     }
 
 public function onCommand(CommandSender $sender, Command $command, $label, array $params)
@@ -83,8 +91,8 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
             case "cart":
                 $action = array_shift($params);
                 $id = implode("", $params);
-                $allpurchases = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 2");
-                $purchasesbyid = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id' AND `".$this->getConfig()->get("mysql_column_username")."`='".$sender->getName()."'") or die("FAILED TO USE MYSQL COMMAND! QUERY 3");
+                $allpurchases = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 5");
+                $purchasesbyid = @mysqli_query($this->link, "SELECT * FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id' AND `".$this->getConfig()->get("mysql_column_username")."`='".$sender->getName()."'") or die("FAILED TO USE MYSQL COMMAND! QUERY 6");
                 if(empty($action))
                     {
                         if(@mysqli_num_rows($allpurchases))
@@ -118,7 +126,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                                 $fullitem = Item::get($item, $damage, $pbi[$this->getConfig()->get("mysql_column_items_count")]);
                                                 $sender->getInventory()->addItem($fullitem);
                                                 #$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$pbi[$this->getConfig()->get("mysql_column_item_id")]." ".$pbi[$this->getConfig()->get("mysql_column_items_count")]); // This method of give things was used in beta version of plugin
-                                                @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
+                                                @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_row_id")."`='$id'") or die("FAILED TO USE MYSQL COMMAND! QUERY 7");
                                                 $sender->sendMessage("These goods were moved to your inventory!");
                                                 if($this->getConfig()->get("enable_logger")) $this->getLogger()->info($sender->getName()." gained ".$fullitem." by '/cart get ".$pbi[$this->getConfig()->get("mysql_column_row_id")]."'");
                                             }
@@ -140,7 +148,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                                                 if($this->getConfig()->get("enable_logger")) $this->getLogger()->info($sender->getName()." gained ".$fullitem." by '/cart get all'");
                                                 #$this->getServer()->dispatchCommand(new ConsoleCommandSender(),"give $username ".$ap[$this->getConfig()->get("mysql_column_item_id")]." ".$ap[$this->getConfig()->get("mysql_column_items_count")]); // This method of give things was used in beta version of plugin
                                             }
-                                        @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 4");
+                                        @mysqli_query($this->link, "DELETE FROM `".$this->getConfig()->get("mysql_table")."` WHERE `".$this->getConfig()->get("mysql_column_username")."`='$username'") or die("FAILED TO USE MYSQL COMMAND! QUERY 8");
                                         $sender->sendMessage("All your goods were moved to your inventory!");
                                     }
                                 else $sender->sendMessage("Your shopping cart is empty!");
