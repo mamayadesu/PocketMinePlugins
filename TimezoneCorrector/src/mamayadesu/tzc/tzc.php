@@ -672,7 +672,7 @@ public function onCommand(CommandSender $sender, Command $command, $label, array
                     }
                     else
                     {
-                        $sender->sendMessage("Unknow subcommand!");
+                        $sender->sendMessage("Unknown subcommand!");
                         return true;
                     }
                 }
