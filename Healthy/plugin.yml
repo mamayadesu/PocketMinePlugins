@@ -1,0 +1,5 @@
+name: Healthy
+version: "1.0"
+author: MamayAdesu
+api: 1.2.0
+main: mamayadesu\healthy
