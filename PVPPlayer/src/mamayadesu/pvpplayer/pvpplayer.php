@@ -21,7 +21,7 @@ public function onEnable()
     {
         if(! file_exists($this->getDataFolder()."config.yml"))
         {
-            mkdir($this->getDataFolder());
+            @mkdir($this->getDataFolder());
             $this->pvp = new Config($this->getDataFolder()."config.yml", Config::YAML);
         }
         
