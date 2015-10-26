@@ -1,0 +1,6 @@
+name: SlashConsole
+version: "1.0"
+author: Fromgate
+authors: ['MamayAdesu', 'Fromgate']
+main: fromgate\main
+api: 1.2.0
